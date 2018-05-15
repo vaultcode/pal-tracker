@@ -5,6 +5,7 @@ import io.pivotal.pal.tracker.TimeEntry;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -39,11 +40,10 @@ public class InMemoryTimeEntryRepositoryTest {
         repo.create(new TimeEntry(123L, 456L, LocalDate.parse("2017-01-08"), 8));
         repo.create(new TimeEntry(789L, 654L, LocalDate.parse("2017-01-07"), 4));
 
-        List<TimeEntry> expected = asList(
+        assertThat(repo.list()).containsExactlyInAnyOrder(
                 new TimeEntry(1L, 123L, 456L, LocalDate.parse("2017-01-08"), 8),
                 new TimeEntry(2L, 789L, 654L, LocalDate.parse("2017-01-07"), 4)
         );
-        assertThat(repo.list()).isEqualTo(expected);
     }
 
     @Test
@@ -64,9 +64,11 @@ public class InMemoryTimeEntryRepositoryTest {
     public void delete() throws Exception {
         InMemoryTimeEntryRepository repo = new InMemoryTimeEntryRepository();
         TimeEntry created = repo.create(new TimeEntry(123L, 456L, LocalDate.parse("2017-01-08"), 8));
+        repo.create(new TimeEntry(123L, 456L, LocalDate.parse("2017-01-08"), 8));
 
         repo.delete(created.getId());
-      
-        assertThat(repo.list()).isEmpty();
+
+        assertThat(repo.list()).isNotEmpty();
+        assertThat(repo.find(created.getId())).isNull();
     }
 }

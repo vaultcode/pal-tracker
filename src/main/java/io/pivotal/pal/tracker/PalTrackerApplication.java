@@ -13,18 +13,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @SpringBootApplication
 public class PalTrackerApplication {
-    public static void main(String[] args){
-        
-        SpringApplication.run(PalTrackerApplication.class, args);
 
+    public static void main(String[] args) {
+        SpringApplication.run(PalTrackerApplication.class, args);
     }
-    
+
     @Bean
-    public TimeEntryRepository TimeEntryRepository(){
-    	return new InMemoryTimeEntryRepository();
-    	
+    public TimeEntryRepository TimeEntryRepository() {
+        return new InMemoryTimeEntryRepository();
     }
-    
+
     @Bean
     public ObjectMapper jsonObjectMapper() {
         return Jackson2ObjectMapperBuilder.json()
@@ -33,5 +31,4 @@ public class PalTrackerApplication {
                 .modules(new JavaTimeModule())
                 .build();
     }
-
 }
