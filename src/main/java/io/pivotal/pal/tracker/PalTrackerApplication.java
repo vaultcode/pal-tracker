@@ -16,16 +16,14 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @SpringBootApplication
 public class PalTrackerApplication {
-	@Autowired
-	DataSource dataSource;
 
     public static void main(String[] args) {
         SpringApplication.run(PalTrackerApplication.class, args);
     }
 
     @Bean
-    public TimeEntryRepository TimeEntryRepository() {
-        return new JdbcTimeEntryRepository(dataSource);
+    TimeEntryRepository timeEntryRepository(DataSource datasource) {
+        return new JdbcTimeEntryRepository(datasource);
     }
 
     @Bean
